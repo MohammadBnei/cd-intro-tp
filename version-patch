@@ -1,0 +1,31 @@
+cd api
+
+OLD_VERSION=$(node -e "console.log(require('./package.json').version);")
+case $1 in 
+-p)
+npm version patch
+echo "patch update"
+;;
+
+-mi)
+npm version minor
+echo "minor update"
+;;
+
+-ma)
+npm version patch
+echo "major update"
+;;
+
+*)
+echo “No version specidifed”
+exit 1
+
+esac
+
+NEW_VERSION=$(node -e "console.log(require('./package.json').version);")
+
+echo "from $OLD_VERSION to $NEW_VERSION"
+
+cd ..
+git tag $NEW_VERSION

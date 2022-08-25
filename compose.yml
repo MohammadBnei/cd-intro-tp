@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  joke-api:
+    image: mohammaddocker/joke-api:${JOKE_TAG:-latest}
+    ports:
+      - 3000:3000
