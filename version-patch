@@ -13,7 +13,7 @@ echo "minor update"
 ;;
 
 -ma)
-npm version patch
+npm version major
 echo "major update"
 ;;
 
