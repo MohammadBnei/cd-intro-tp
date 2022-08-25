@@ -20,9 +20,8 @@ describe('AppController', () => {
     it('should return a joke ', async () => {
       const { joke } = await appController.getJoke();
       expect(joke).toHaveProperty('id');
-      expect(joke).toHaveProperty('setup');
-      expect(joke).toHaveProperty('delivery');
       expect(joke).toHaveProperty('category');
+      expect(joke).toHaveProperty('type');
     });
   });
 });

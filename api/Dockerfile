@@ -1,6 +1,6 @@
 FROM node:16-alpine AS builder
 WORKDIR "/app"
-COPY ./api .
+COPY . .
 RUN npm install -g pnpm
 RUN pnpm i
 RUN pnpm run build
