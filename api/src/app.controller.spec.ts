@@ -23,5 +23,9 @@ describe('AppController', () => {
       expect(joke).toHaveProperty('category');
       expect(joke).toHaveProperty('type');
     });
+
+    it('should return the api version ', async () => {
+      expect(appController.apiVersion).toBeDefined();
+    });
   });
 });

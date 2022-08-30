@@ -7,6 +7,8 @@ export class AppController {
 
   constructor(private readonly appService: AppService) {
     this.apiVersion = process.env.npm_package_version;
+
+    console.log({ apiV: this.apiVersion });
   }
 
   // @Get()
