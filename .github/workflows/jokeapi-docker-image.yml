@@ -9,13 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: api
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Use Node.js 16
         uses: actions/setup-node@v3
@@ -36,7 +35,7 @@ jobs:
         working-directory: api
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Get the latest tag
         id: get_version
