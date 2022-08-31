@@ -19,17 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: ls
-        run: ls -R
-
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+        run: ls
+        run: npm ci
+        run: npm run build --if-present
+        run: npm test
 
   build:
     needs: test
