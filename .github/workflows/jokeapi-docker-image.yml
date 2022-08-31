@@ -30,7 +30,11 @@ jobs:
         with:
           version: 7
 
-      - run: pnpm test
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Unit Tests
+        run: pnpm test
 
   build:
     needs: test
