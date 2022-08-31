@@ -24,10 +24,13 @@ jobs:
         with:
           node-version: 16
 
-      - run: ls
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+
+      - run: pnpm test
 
   build:
     needs: test
