@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: '16.14.0'
+        node-version: ["16.14.0"]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -34,13 +34,12 @@ jobs:
   build:
     requires:
       - test
-    
+
     runs-on: ubuntu-latest
 
     defaults:
       run:
         working-directory: ./api
-
 
     steps:
       - uses: actions/checkout@v3
