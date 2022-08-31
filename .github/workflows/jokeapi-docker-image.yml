@@ -57,13 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get the latest tag
-        id: get_version
-        uses: battila7/get-version-action@v2
-
       - name: Echo version
-        run: echo ${{ steps.get_version.outputs.version-without-v }}
+        run: echo ${{ ${{ github.ref }} }}
 
-      - name: Build the Docker image
-        working-directory: api
-        run: docker build . --file Dockerfile --tag joke-api:${{steps.get_version.outputs.version-without-v}}
+      # - name: Build the Docker image
+      #   working-directory: api
+      #   run: docker build . --file Dockerfile --tag joke-api:${{steps.get_version.outputs.version-without-v}}
