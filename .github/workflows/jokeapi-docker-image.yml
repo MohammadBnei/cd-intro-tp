@@ -2,16 +2,15 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   test:
     defaults:
-        run:
-          working-directory: ./api
+      run:
+        working-directory: ./api
 
     runs-on: ubuntu-latest
 
@@ -21,32 +20,33 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
 
   build:
-    requires: 
-    defaults:
-          run:
-            working-directory: ./api
-
+    requires:
+      - test
+    
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./api
+
+
     steps:
-    - name: Get the latest tag
-    - id: get_version
-      uses: battila7/get-version-action@v2
-    - run: echo ${{ steps.get_version.outputs.version-without-v }}
+      - name: Get the latest tag
+      - id: get_version
+        uses: battila7/get-version-action@v2
+      - run: echo ${{ steps.get_version.outputs.version-without-v }}
 
-
-    - name: Build the Docker image
-    - uses: actions/checkout@v3
-      run: docker build . --file Dockerfile --tag joke-api:${{steps.get_version.outputs.version-without-v}}
+      - name: Build the Docker image
+      - uses: actions/checkout@v3
+        run: docker build . --file Dockerfile --tag joke-api:${{steps.get_version.outputs.version-without-v}}
