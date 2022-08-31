@@ -33,6 +33,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Unit Tests
         run: pnpm test
 
@@ -40,10 +53,6 @@ jobs:
     needs: test
 
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: api
 
     steps:
       - uses: actions/checkout@v2
@@ -56,4 +65,5 @@ jobs:
         run: echo ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Build the Docker image
+        working-directory: api
         run: docker build . --file Dockerfile --tag joke-api:${{steps.get_version.outputs.version-without-v}}
