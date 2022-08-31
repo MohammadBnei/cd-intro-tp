@@ -8,11 +8,45 @@ on:
 
 jobs:
 
+  test:
+    defaults:
+        run:
+          working-directory: ./api
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: 16.14.0
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+
   build:
+    requires: 
+    defaults:
+          run:
+            working-directory: ./api
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Get the latest tag
+    - id: get_version
+      uses: battila7/get-version-action@v2
+    - run: echo ${{ steps.get_version.outputs.version-without-v }}
+
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - uses: actions/checkout@v3
+      run: docker build . --file Dockerfile --tag joke-api:${{steps.get_version.outputs.version-without-v}}
