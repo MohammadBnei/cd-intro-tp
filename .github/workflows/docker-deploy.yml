@@ -68,7 +68,9 @@ jobs:
 
       - name: Set api version
         id: api-version
-        run: echo '::set-output name=API_VERSION::$(node -e "console.log(require('./package.json').version);")'
+        run: |
+          VERSION=$(node -e "console.log(require('./package.json').version);")
+          echo '::set-output name=API_VERSION::$VERSION'
 
       - run: echo ${{ steps.api-version.outputs.API_VERSION }}
 
