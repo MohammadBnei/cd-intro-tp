@@ -60,6 +60,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Use Node.js 16
         uses: actions/setup-node@v3
@@ -106,8 +108,7 @@ jobs:
           file: ./${{ env.workdir }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: 
-            |
+          tags: |
             mohammaddocker/joke-api:${{ steps.api-version.outputs.API_VERSION }} 
             mohammaddocker/joke-api:latest
           cache-from: type=local,src=/tmp/.buildx-cache
