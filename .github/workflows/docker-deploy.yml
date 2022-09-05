@@ -99,6 +99,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Set up QEMU dependency
+        uses: docker/setup-qemu-action@v2
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v3
