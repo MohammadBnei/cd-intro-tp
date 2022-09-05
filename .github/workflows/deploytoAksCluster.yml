@@ -11,6 +11,8 @@ on:
     paths:
         - ".github/workflows/deploytoAksCluster.yml"
         - "manifests/**"
+
+        
 jobs:
   deploy:
     runs-on: ubuntu-latest
