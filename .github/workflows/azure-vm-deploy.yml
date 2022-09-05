@@ -26,9 +26,9 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath
-          playbook: main.yml
+          playbook: docker/main.yml
           # Optional, directory where playbooks live
-          directory: ./ansible/docker
+          directory: ./ansible
           # Optional, SSH private key
           key: ${{secrets.AZURE_SSH_KEY}}
           # Optional, literal inventory file contents
@@ -51,7 +51,7 @@ jobs:
           # Optional, literal inventory file contents
           inventory: |
             [all]
-            ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
+            ${{secrets.AZURE_VM_IP}} ansible_user=mohammadconio
 
             [azure_vm:vars]
             ansible_python_interpreter=/usr/bin/python3
