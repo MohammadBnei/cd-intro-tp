@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+        with:
+          ssh-private-key: ${{ secrets.AZURE_SSH_KEY }}
+          ssh-host: ${{secrets.AZURE_VM_IP}}
+
       - name: Update docker compose image
         uses: dawidd6/action-ansible-playbook@v2
         with:
