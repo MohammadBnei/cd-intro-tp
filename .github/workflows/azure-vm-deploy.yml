@@ -26,14 +26,18 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath
-          playbook: docker/main.yml
+          playbook: main.yml
           # Optional, directory where playbooks live
-          directory: ./ansible
+          directory: ./ansible/docker
           # Optional, SSH private key
           key: ${{secrets.AZURE_SSH_KEY}}
           # Optional, literal inventory file contents
-          options: |
-            --inventory .hosts
+          inventory: |
+            [azure-vm]
+            ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
+
+            [azure_vm:vars]
+            ansible_python_interpreter=/usr/bin/python3
 
       - name: Update docker compose image
         uses: dawidd6/action-ansible-playbook@v2
@@ -44,5 +48,10 @@ jobs:
           directory: ./ansible
           # Optional, SSH private key
           key: ${{secrets.AZURE_SSH_KEY}}
-          options: |
-            --inventory .hosts
+          # Optional, literal inventory file contents
+          inventory: |
+            [all]
+            ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
+
+            [azure_vm:vars]
+            ansible_python_interpreter=/usr/bin/python3
