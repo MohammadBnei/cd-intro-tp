@@ -1,0 +1,48 @@
+name: Azure Web App Update
+
+on:
+  workflow_run:
+    workflows: ["Docker Image CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Update docker compose image
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: main.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible/docker
+          # Optional, SSH private key
+          key: ${{secrets.AZURE_SSH_KEY}}
+          # Optional, literal inventory file contents
+          inventory: |
+            [all]
+            ${{secrets.AZURE_VM_IP}}
+            
+            [azure_vm:vars]
+            ansible_python_interpreter=/usr/bin/python3
+
+      - name: Update docker compose image
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: azure-vm-update.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible
+          # Optional, SSH private key
+          key: ${{secrets.AZURE_SSH_KEY}}
+          # Optional, literal inventory file contents
+          inventory: |
+            [all]
+            ${{secrets.AZURE_VM_IP}}
+            
+            [azure_vm:vars]
+            ansible_python_interpreter=/usr/bin/python3

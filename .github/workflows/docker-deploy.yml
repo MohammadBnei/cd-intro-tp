@@ -13,6 +13,7 @@ on:
 
 env:
   workdir: api
+  platforms: linux/amd64, linux/arm64/v8
 
 jobs:
   build:
@@ -64,8 +65,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Use Node.js 16
         uses: actions/setup-node@v3
@@ -90,6 +89,11 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
+        
+      - name: Set up QEMU dependency
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: ${{ env.platforms }}
 
       - name: Cache Docker layers
         uses: actions/cache@v2
@@ -99,8 +103,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Set up QEMU dependency
-        uses: docker/setup-qemu-action@v2
 
       - name: Build and push
         id: docker_build
@@ -110,7 +112,7 @@ jobs:
           file: ./${{ env.workdir }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64, linux/arm64/v8
+          platforms: ${{ env.platforms }}
           tags: |
             mohammaddocker/joke-api:${{ steps.api-version.outputs.API_VERSION }} 
             mohammaddocker/joke-api:latest
