@@ -107,7 +107,7 @@ jobs:
           file: ./${{ env.workdir }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: ${{ github.event_name != 'pull_request' }}
-          platform: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           tags: |
             mohammaddocker/joke-api:${{ steps.api-version.outputs.API_VERSION }} 
             mohammaddocker/joke-api:latest
