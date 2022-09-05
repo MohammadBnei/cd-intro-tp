@@ -1,4 +1,4 @@
-name: Azure Web App Update
+name: Azure VM Update
 
 on:
   workflow_run:
@@ -26,7 +26,7 @@ jobs:
           inventory: |
             [all]
             ${{secrets.AZURE_VM_IP}}
-            
+
             [azure_vm:vars]
             ansible_python_interpreter=/usr/bin/python3
 
@@ -43,6 +43,6 @@ jobs:
           inventory: |
             [all]
             ${{secrets.AZURE_VM_IP}}
-            
+
             [azure_vm:vars]
             ansible_python_interpreter=/usr/bin/python3
