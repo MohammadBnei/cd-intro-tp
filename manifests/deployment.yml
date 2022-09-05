@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "jokeapp-c62b"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "jokeapp-c62b"
+  template:
+    metadata:
+      labels:
+        app: "jokeapp-c62b"
+    spec:
+      containers:
+        - name: "jokeapp-c62b"
+          image: "mohammadcd.azurecr.io/jokeapp"
+          ports:
+          - containerPort: 80
