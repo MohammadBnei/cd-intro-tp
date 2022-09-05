@@ -92,8 +92,6 @@ jobs:
         
       - name: Set up QEMU dependency
         uses: docker/setup-qemu-action@v2
-        with:
-          platforms: ${{ env.platforms }}
 
       - name: Cache Docker layers
         uses: actions/cache@v2
