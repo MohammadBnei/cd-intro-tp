@@ -5,6 +5,10 @@ on:
     workflows: ["Docker Image CI"]
     types:
       - completed
+  push:
+    branches: ["main"]
+    paths:
+        - ".github/workflows/azure-vm-deploy.yml"
 
 jobs:
   deploy:
