@@ -9,6 +9,7 @@ on:
     branches: ["main"]
     paths:
         - ".github/workflows/azure-vm-deploy.yml"
+        - "ansible/**"
 
 jobs:
   deploy:
