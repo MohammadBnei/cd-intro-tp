@@ -1,4 +1,13 @@
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Docker Image CI"]
+    types:
+      - completed
+  push:
+    branches: ["main"]
+    paths:
+        - ".github/workflows/deploytoAksCluster.yml"
+        - "manifests/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
