@@ -22,7 +22,7 @@ jobs:
           ssh-private-key: ${{ secrets.AZURE_SSH_KEY }}
           ssh-host: ${{secrets.AZURE_VM_IP}}
 
-      - name: Update docker compose image
+      - name: Install docker and docker compose
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath
