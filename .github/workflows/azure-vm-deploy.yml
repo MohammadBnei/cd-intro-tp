@@ -33,7 +33,7 @@ jobs:
           key: ${{secrets.AZURE_SSH_KEY}}
           # Optional, literal inventory file contents
           inventory: |
-            [azure-vm]
+            [all]
             ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
 
             [azure_vm:vars]
@@ -51,7 +51,7 @@ jobs:
           # Optional, literal inventory file contents
           inventory: |
             [all]
-            ${{secrets.AZURE_VM_IP}} ansible_user=mohammadconio
+            ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
 
             [azure_vm:vars]
             ansible_python_interpreter=/usr/bin/python3
