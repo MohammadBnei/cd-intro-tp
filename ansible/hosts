@@ -1,0 +1,5 @@
+[azure_vm]
+20.126.15.237 ansible_user=mohammad
+
+[azure_vm:vars]
+ansible_python_interpreter=/usr/bin/python3

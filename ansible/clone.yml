@@ -7,3 +7,15 @@
        dest: /home/mohammad/app
        clone: yes
        update: yes
+
+ - hosts: all
+   name: Run using a project directory
+   become: true
+   gather_facts: false
+   tasks:
+    - name: Create and pull compose services
+      community.docker.docker_compose:
+        project_src: /home/mohammad/app
+        pull: true
+        state: present
+      register: output
