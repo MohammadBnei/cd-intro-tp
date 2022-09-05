@@ -3,5 +3,7 @@ version: '3.8'
 services:
   joke-api:
     image: mohammaddocker/joke-api:${JOKE_TAG:-latest}
+    environment:
+      - PORT=3000
     ports:
       - 80:3000
