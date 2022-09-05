@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: "jokeapp-c62b"
-          image: "mohammadcd.azurecr.io/jokeapp"
+          image: "mohammaddocker/joke-api:latest"
           env:
             - name: PORT
               value: "80"
