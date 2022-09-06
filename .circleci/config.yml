@@ -46,7 +46,9 @@ jobs:
             curl -L https://pnpm.js.org/pnpm.js | node - add --global pnpm@7
       - run:
           name: test app
-          command: pnpm test
+          command: |
+            cd api
+            pnpm test
 
 workflows:
     build:
