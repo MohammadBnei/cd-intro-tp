@@ -12,9 +12,7 @@ commands:
         type: string
     steps:
       - run: heroku config:set YARN_PRODUCTION=false -a <<parameters.HEROKU_APP_NAME>>
-      - heroku/deploy-via-git:
-          app-name: <<parameters.HEROKU_APP_NAME>>
-          branch: <<parameters.BRANCH>>
+      - run: git subtree push --prefix api https://heroku:$HEROKU_API_KEY@git.heroku.com/<<parameters.HEROKU_APP_NAME>>.git <<parameters.BRANCH>>:main
 
 jobs:
   build: # this can be any name you choose
