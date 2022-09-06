@@ -11,7 +11,9 @@ jobs:
       - checkout
       - run:
           name: CD into api folder
-          command: cd api
+          command: |
+            cd api
+            ls -la
       - restore_cache:
           name: Restore pnpm Package Cache
           keys:
