@@ -86,6 +86,7 @@ jobs:
             mv api ../tmp
             rm -rf *
             mv ../tmp/* . 
+            ls -la
 
       - heroku/install
 
