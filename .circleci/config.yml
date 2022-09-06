@@ -38,6 +38,7 @@ jobs:
           command: |
             cd api
             pnpm install
+            pnpm build
       - save_cache:
           name: Save pnpm Package Cache
           key: pnpm-packages-{{ checksum "api/pnpm-lock.yaml" }}
