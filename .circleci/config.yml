@@ -59,10 +59,12 @@ jobs:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: ~/project/
+
       - run:
           name: Install pnpm package manager
           command: |
             curl -L https://pnpm.js.org/pnpm.js | node - add --global pnpm@7
+
       - run:
           name: test app
           command: |
@@ -72,6 +74,12 @@ jobs:
     executor: heroku/default
     steps:
       - checkout
+
+      - run:
+          name: modify folder structure
+          command: |
+            mv api/* .
+            mv api/.* .
 
       - heroku/install
 
