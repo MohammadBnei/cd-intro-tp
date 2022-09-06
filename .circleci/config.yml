@@ -30,7 +30,7 @@ jobs:
       - persist_to_workspace:
           paths:
             - "api"
-          root: workspace
+          root: project
       
 
   test: # this can be any name you choose
