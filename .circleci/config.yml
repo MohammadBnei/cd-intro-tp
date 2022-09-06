@@ -84,7 +84,7 @@ jobs:
           name: modify folder structure
           command: |
             mv api ../tmp
-            rm *
+            rm -rf *
             mv ../tmp/* . 
 
       - heroku/install
