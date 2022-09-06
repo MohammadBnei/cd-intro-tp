@@ -40,6 +40,9 @@ jobs:
     parallelism: 10
 
     steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: api
       - run:
           name: Install pnpm package manager
           command: |
@@ -48,7 +51,6 @@ jobs:
           name: test app
           command: |
             ls -la
-            cd api
             pnpm test
 
 workflows:
