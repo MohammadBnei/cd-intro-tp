@@ -1,5 +1,21 @@
 version: 2.1
 
+orbs:
+  heroku: circleci/heroku@1.2.6
+
+commands:
+  deploy-command:
+    parameters:
+      BRANCH:
+        type: string
+      HEROKU_APP_NAME:
+        type: string
+    steps:
+      - run: heroku config:set YARN_PRODUCTION=false -a <<parameters.HEROKU_APP_NAME>>
+      - heroku/deploy-via-git:
+          app-name: <<parameters.HEROKU_APP_NAME>>
+          branch: <<parameters.BRANCH>>
+
 jobs:
   build: # this can be any name you choose
     docker:
@@ -42,7 +58,7 @@ jobs:
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: api
+          at: ~/project/
       - run:
           name: Install pnpm package manager
           command: |
@@ -50,8 +66,24 @@ jobs:
       - run:
           name: test app
           command: |
-            cd api
             pnpm test
+
+  deploy:
+    executor: heroku/default
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/project/
+
+      - heroku/install
+
+      - when:
+          condition:
+            equal: [circleci, << pipeline.git.branch >>]
+          steps:
+            - deploy-command:
+                HEROKU_APP_NAME: joke-app-cd
+                BRANCH: circleci
 
 workflows:
     build:
@@ -64,3 +96,6 @@ workflows:
         - test:
             requires:
               - build
+        - deploy:
+            requires:
+              - test
