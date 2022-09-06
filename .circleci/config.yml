@@ -2,6 +2,7 @@ version: 2.1
 
 jobs:
   build: # this can be any name you choose
+    working_directory: api
     docker:
       - image: node:16
     resource_class: large
@@ -9,11 +10,7 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: CD into api folder
-          command: |
-            cd api
-            ls -la
+      - run: ls -la
       - restore_cache:
           name: Restore pnpm Package Cache
           keys:
