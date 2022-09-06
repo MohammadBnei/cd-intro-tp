@@ -29,8 +29,8 @@ jobs:
             - api/node_modules
       - persist_to_workspace:
           paths:
-            - "api"
-          root: project
+            - "."
+          root: api
       
 
   test: # this can be any name you choose
