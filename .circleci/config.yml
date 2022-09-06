@@ -72,6 +72,8 @@ jobs:
   deploy:
     executor: heroku/default
     steps:
+      - checkout
+
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: ~/project/api
