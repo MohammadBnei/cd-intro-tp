@@ -27,3 +27,13 @@ jobs:
           key: pnpm-packages-{{ checksum "api/pnpm-lock.yaml" }}
           paths:
             - api/node_modules
+
+
+workflows:
+    build:
+      jobs:
+        - test:
+            filters:
+              branches:
+                only:
+                  - circleci
