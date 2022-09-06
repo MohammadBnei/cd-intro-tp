@@ -75,6 +75,10 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/project/api
+
       - run:
           name: modify folder structure
           command: |
