@@ -78,8 +78,9 @@ jobs:
       - run:
           name: modify folder structure
           command: |
-            mv api/* .
-            mv api/.* .
+            mv api/node_modules .
+            mv api/package.json .
+            mv api/dist .
 
       - heroku/install
 
