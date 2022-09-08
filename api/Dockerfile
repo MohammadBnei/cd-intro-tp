@@ -5,6 +5,7 @@ RUN npm install -g pnpm
 RUN pnpm i
 RUN pnpm run build
 RUN pnpm prune --production
+
 FROM node:16-alpine AS production
 WORKDIR "/app"
 COPY --from=builder /app/package.json ./package.json
