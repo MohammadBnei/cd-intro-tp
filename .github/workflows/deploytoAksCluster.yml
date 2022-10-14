@@ -1,6 +1,5 @@
 name: Azure K8S deploy
 
-
 on:
   workflow_run:
     workflows: ["Docker Image CI"]
@@ -9,69 +8,67 @@ on:
   push:
     branches: ["main"]
     paths:
-        - ".github/workflows/deploytoAksCluster.yml"
-        - "manifests/**"
+      - ".github/workflows/deploytoAksCluster.yml"
+      - "manifests/**"
 
-        
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    
-    - uses: actions/checkout@master
-    
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: actions/checkout@v3
 
-    # - name: Create ACR
-    #   id: create-acr
-    #   run: |
-    #     az acr create -n mohammadcd -g mohammadcd81d0-rg --location "West Europe" --sku Standard --admin-enabled
-    #     echo "::set-output name=acr_username::`az acr credential show -n mohammadcd --query username | xargs`"
-    #     echo "::set-output name=acr_password::`az acr credential show -n mohammadcd --query passwords[0].value | xargs`"
-    #     echo "::add-mask::`az acr credential show -n mohammadcd --query passwords[0].value | xargs`"
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # - uses: azure/docker-login@v1
-    #   with:
-    #     login-server: mohammadcd.azurecr.io
-    #     username: ${{ steps.create-acr.outputs.acr_username }}
-    #     password: ${{ steps.create-acr.outputs.acr_password }}
+      # - name: Create ACR
+      #   id: create-acr
+      #   run: |
+      #     az acr create -n mohammadcd -g mohammadcd81d0-rg --location "West Europe" --sku Standard --admin-enabled
+      #     echo "::set-output name=acr_username::`az acr credential show -n mohammadcd --query username | xargs`"
+      #     echo "::set-output name=acr_password::`az acr credential show -n mohammadcd --query passwords[0].value | xargs`"
+      #     echo "::add-mask::`az acr credential show -n mohammadcd --query passwords[0].value | xargs`"
 
-    # - name: Build and push image to ACR
-    #   id: build-image
-    #   run: |
-    #     docker build "$GITHUB_WORKSPACE/api" -f  "api/Dockerfile" -t mohammadcd.azurecr.io/jokeapp:${{ github.sha }} --label dockerfile-path=api/Dockerfile
-    #     docker push mohammadcd.azurecr.io/jokeapp:${{ github.sha }}
-    
-    - uses: azure/k8s-set-context@v1
-      id: login
-      with:
-         kubeconfig: ${{ secrets.aks_jokeapp_kubeConfig }}
-    
-    - name: Create namespace
-      run: |
-        namespacePresent=`kubectl get namespace | grep joke-app86ff | wc -l`
-        if [ $namespacePresent -eq 0 ]
-        then
-            echo `kubectl create namespace joke-app86ff`
-        fi
+      # - uses: azure/docker-login@v1
+      #   with:
+      #     login-server: mohammadcd.azurecr.io
+      #     username: ${{ steps.create-acr.outputs.acr_username }}
+      #     password: ${{ steps.create-acr.outputs.acr_password }}
 
-    # - uses: azure/k8s-create-secret@v1
-    #   with:
-    #     namespace: joke-app86ff
-    #     container-registry-url: mohammadcd.azurecr.io
-    #     container-registry-username: ${{ steps.create-acr.outputs.acr_username }}
-    #     container-registry-password: ${{ steps.create-acr.outputs.acr_password }}
-    #     secret-name: jokeappdockerauth
-       
-    - uses: azure/k8s-deploy@v1.2
-      with:
-        namespace: joke-app86ff
-        manifests: |
-          manifests/deployment.yml
-          manifests/service.yml
-        images: |
-          mohammaddocker/joke-api:latest
-        # imagepullsecrets: |
-        #   jokeappdockerauth   
+      # - name: Build and push image to ACR
+      #   id: build-image
+      #   run: |
+      #     docker build "$GITHUB_WORKSPACE/api" -f  "api/Dockerfile" -t mohammadcd.azurecr.io/jokeapp:${{ github.sha }} --label dockerfile-path=api/Dockerfile
+      #     docker push mohammadcd.azurecr.io/jokeapp:${{ github.sha }}
+
+      - uses: azure/k8s-set-context@v1
+        id: login
+        with:
+          kubeconfig: ${{ secrets.aks_jokeapp_kubeConfig }}
+
+      - name: Create namespace
+        run: |
+          namespacePresent=`kubectl get namespace | grep joke-app86ff | wc -l`
+          if [ $namespacePresent -eq 0 ]
+          then
+              echo `kubectl create namespace joke-app86ff`
+          fi
+
+      # - uses: azure/k8s-create-secret@v1
+      #   with:
+      #     namespace: joke-app86ff
+      #     container-registry-url: mohammadcd.azurecr.io
+      #     container-registry-username: ${{ steps.create-acr.outputs.acr_username }}
+      #     container-registry-password: ${{ steps.create-acr.outputs.acr_password }}
+      #     secret-name: jokeappdockerauth
+
+      - uses: azure/k8s-deploy@v1.2
+        with:
+          namespace: joke-app86ff
+          manifests: |
+            manifests/deployment.yml
+            manifests/service.yml
+          images: |
+            mohammaddocker/joke-api:latest
+          # imagepullsecrets: |
+          #   jokeappdockerauth
