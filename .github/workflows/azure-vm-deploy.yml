@@ -15,6 +15,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.RASP_SSH_KEY }}
           ssh-host: ${{secrets.RASP_IP}}
+          ssh-port: 2222
 
       - name: Update docker compose image
         uses: dawidd6/action-ansible-playbook@v2
