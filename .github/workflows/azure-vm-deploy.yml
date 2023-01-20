@@ -1,15 +1,8 @@
 name: Azure VM Update
 
 on:
-  workflow_run:
-    workflows: ["Docker Image CI"]
-    types:
-      - completed
   push:
-    branches: ["main"]
-    paths:
-        - ".github/workflows/azure-vm-deploy.yml"
-        - "ansible/**"
+    branches: ["raspberry"]
 
 jobs:
   deploy:
@@ -20,25 +13,8 @@ jobs:
 
       - uses: kielabokkie/ssh-key-and-known-hosts-action@v1
         with:
-          ssh-private-key: ${{ secrets.AZURE_SSH_KEY }}
-          ssh-host: ${{secrets.AZURE_VM_IP}}
-
-      - name: Install docker and docker compose
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          # Required, playbook filepath
-          playbook: docker/main.yml
-          # Optional, directory where playbooks live
-          directory: ./ansible
-          # Optional, SSH private key
-          key: ${{secrets.AZURE_SSH_KEY}}
-          # Optional, literal inventory file contents
-          inventory: |
-            [all]
-            ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
-
-            [azure_vm:vars]
-            ansible_python_interpreter=/usr/bin/python3
+          ssh-private-key: ${{ secrets.RASP_SSH_KEY }}
+          ssh-host: ${{secrets.RASP_IP}}
 
       - name: Update docker compose image
         uses: dawidd6/action-ansible-playbook@v2
@@ -48,11 +24,11 @@ jobs:
           # Optional, directory where playbooks live
           directory: ./ansible
           # Optional, SSH private key
-          key: ${{secrets.AZURE_SSH_KEY}}
+          key: ${{secrets.RASP_SSH_KEY}}
           # Optional, literal inventory file contents
           inventory: |
             [all]
-            ${{secrets.AZURE_VM_IP}} ansible_user=mohammad
+            ${{secrets.RASP_IP}}:2222 ansible_user=mohammad
 
             [azure_vm:vars]
             ansible_python_interpreter=/usr/bin/python3
