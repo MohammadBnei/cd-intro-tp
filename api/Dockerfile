@@ -1,4 +1,4 @@
-FROM narm32v6/ode:16 AS builder
+FROM arm32v6/node:16 AS builder
 WORKDIR "/app"
 COPY . .
 RUN npm install -g pnpm
